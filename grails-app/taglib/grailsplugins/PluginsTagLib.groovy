@@ -1,10 +1,13 @@
 package grailsplugins
 
 import com.github.GithubRepository
+import groovy.util.logging.Slf4j
 
 import java.text.DateFormat
+import java.text.ParseException
 import java.text.SimpleDateFormat
 
+@Slf4j
 class PluginsTagLib {
     public static final DateFormat UTC = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     public static final DateFormat DISPLAY = new SimpleDateFormat('MMM d, yyyy')
@@ -16,8 +19,12 @@ class PluginsTagLib {
     def lastUpdated = { attrs, body ->
         GrailsPlugin grailsPlugin = attrs.plugin
         if ( grailsPlugin.bintrayPackage?.updated ) {
-            Date date = UTC.parse(grailsPlugin.bintrayPackage?.updated)
-            out << DISPLAY.format(date)
+            try {
+                Date date = UTC.parse(grailsPlugin.bintrayPackage?.updated)
+                out << DISPLAY.format(date)
+            } catch ( ParseException e) {
+                log.error 'unable to parse updated {} for {}', grailsPlugin.bintrayPackage?.updated, grailsPlugin.bintrayPackage?.name
+            }
         }
     }
 
