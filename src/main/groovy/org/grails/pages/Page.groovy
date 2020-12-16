@@ -182,7 +182,7 @@ abstract class Page implements HtmlPage {
                 div(class: 'ocihometograils') {
                     span 'Sponsored by'
                     a(href: "https://objectcomputing.com/products/grails/") {
-                        mkp.yieldUnescaped renderImage('oci_home_to_grails.svg', 'Object Computing - Home to Grails', '', 300)
+                        img(src: 'assets/oci_home_to_grails.svg', alt: 'Object Computing - Home to Grails', width: '300px')
                     }
                 }
                 nav(class: 'socialmedianav') {
